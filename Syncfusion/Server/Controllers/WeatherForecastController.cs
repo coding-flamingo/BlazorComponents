@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using MudBlazor.Shared;
+using Syncfusion.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MudBlazor.Server.Controllers
+namespace Syncfusion.Server.Controllers
 {
     [ApiController]
     [Route("[controller]")]

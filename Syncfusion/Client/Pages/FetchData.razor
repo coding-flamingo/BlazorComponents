@@ -1,0 +1,35 @@
+﻿@page "/fetchdata"
+@using Syncfusion.Shared
+@inject HttpClient Http
+
+<h1>Weather forecast</h1>
+
+<p>This component demonstrates fetching data from the server.</p>
+
+@if (forecasts == null)
+{
+    <SfSpinner Size="150" Label="Loading" Type="Syncfusion.Blazor.Spinner.SpinnerType.Material" Visible="true"></SfSpinner>
+
+}
+else
+{
+    <SfGrid DataSource="@forecasts" AllowPaging="true" AllowSorting="true">
+        <GridPageSettings PageSize="25"></GridPageSettings>
+        <GridColumns>
+            <GridColumn Field=@nameof(WeatherForecast.Date) HeaderText="Date"></GridColumn>
+            <GridColumn Field=@nameof(WeatherForecast.TemperatureC) HeaderText="Temp. (C)"></GridColumn>
+            <GridColumn Field=@nameof(WeatherForecast.TemperatureF) HeaderText="Temp. (F)"></GridColumn>
+            <GridColumn Field=@nameof(WeatherForecast.Summary) HeaderText="Summary"></GridColumn>
+        </GridColumns>
+    </SfGrid>
+}
+
+@code {
+    private WeatherForecast[] forecasts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("WeatherForecast");
+    }
+
+}

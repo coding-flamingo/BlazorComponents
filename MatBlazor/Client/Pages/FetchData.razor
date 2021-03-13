@@ -1,0 +1,41 @@
+﻿@page "/fetchdata"
+@using MatBlazor.Shared
+@inject HttpClient Http
+
+<h1>Weather forecast</h1>
+
+<p>This component demonstrates fetching data from the server.</p>
+
+@if (forecasts == null)
+{
+    <h3 class="mat-subtitle1">Loading</h3>
+    <MatProgressBar Progress="0.35" Buffer="0.7"></MatProgressBar>
+}
+else
+{
+    <MatTable Items="@forecasts" class="mat-elevation-z5">
+        <MatTableHeader>
+            <th>Date</th>
+            <th>Temp. (C)</th>
+            <th>Temp. (F)</th>
+            <th>Summary</th>
+        </MatTableHeader>
+        <MatTableRow>
+            <td>@context.Date.ToShortDateString()</td>
+            <td>@context.TemperatureC</td>
+            <td>@context.TemperatureF</td>
+            <td>@context.Summary</td>
+        </MatTableRow>
+    </MatTable>
+    
+}
+
+@code {
+    private WeatherForecast[] forecasts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("WeatherForecast");
+    }
+
+}

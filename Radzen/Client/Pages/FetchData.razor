@@ -1,0 +1,35 @@
+﻿@page "/fetchdata"
+@using Radzen.Shared
+@inject HttpClient Http
+
+<h1>Weather forecast</h1>
+
+<p>This component demonstrates fetching data from the server.</p>
+
+@if (forecasts == null)
+{
+    <RadzenProgressBar Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" Style="margin-bottom: 20px" />
+}
+else
+{
+    <RadzenGrid AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" 
+                FilterMode="FilterMode.Advanced" AllowPaging="true" PageSize="25"
+                AllowSorting="true" Data="@forecasts" TItem="WeatherForecast" ColumnWidth="200px">
+        <Columns>
+            <RadzenGridColumn TItem="WeatherForecast" Property="Date" Title="Date" />
+            <RadzenGridColumn TItem="WeatherForecast" Property="TemperatureC" Title="Temp. (C)" />
+            <RadzenGridColumn TItem="WeatherForecast" Property="TemperatureF" Title="Temp. (F)" />
+            <RadzenGridColumn TItem="WeatherForecast" Property="Summary" Title="Summary" />
+        </Columns>
+    </RadzenGrid>
+}
+
+@code {
+    private WeatherForecast[] forecasts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("WeatherForecast");
+    }
+
+}
